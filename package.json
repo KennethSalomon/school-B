@@ -1,0 +1,21 @@
+{
+  "name": "school-b",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000s\u0000c\u0000h\u0000o\u0000o\u0000l\u0000-\u0000B\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KennethSalomon/school-B.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KennethSalomon/school-B/issues"
+  },
+  "homepage": "https://github.com/KennethSalomon/school-B#readme"
+}
