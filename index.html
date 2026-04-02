@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoolBox | Vos fournitures scolaires en un clic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <!-- Animation du logo SchoolBox -->
+  <div class="logo-container">
+    <h1 class="logo">School<span class="box">Box</span></h1>
+  </div>
+
+  <!-- Barre de recherche d'école -->
+  <div class="search-container">
+    <input type="text" id="school-search" placeholder="Recherchez votre école...">
+    <button id="search-button">Rechercher</button>
+  </div>
+
+  <!-- Sélection des classes -->
+  <div class="classes-container">
+    <h2>Sélectionnez votre classe</h2>
+    <div class="classes-grid">
+      <div class="class-card">CP</div>
+      <div class="class-card">CE1</div>
+      <div class="class-card">CE2</div>
+      <div class="class-card">CM1</div>
+      <div class="class-card">CM2</div>
+    </div>
+  </div>
+
+  <!-- Box personnalisable (animation d'ouverture) -->
+  <div class="box-container">
+    <div class="box" id="school-box">
+      <div class="box-lid" id="box-lid"></div>
+      <div class="box-content" id="box-content">
+        <!-- Articles ajoutés dynamiquement -->
+      </div>
+    </div>
+    <button id="open-box-button">Ouvrir ma Box</button>
+  </div>
+
+  <!-- Panier et paiement -->
+  <div class="cart-container">
+    <h2>Votre panier</h2>
+    <div id="cart-items"></div>
+    <button id="checkout-button">Valider la commande</button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/schools.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
