@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma Box - SchoolBox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/mybox.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1>School<span class="box">Box</span></h1>
+      </div>
+      <div class="nav-menu">
+        <a href="/dashboard.html" class="nav-link">Tableau de bord</a>
+        <a href="/mybox.html" class="nav-link active">Ma Box</a>
+        <a href="/orders.html" class="nav-link">Mes Commandes</a>
+        <button id="logout-btn" class="nav-link logout-btn">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mybox-main">
+    <div class="mybox-container">
+      <div class="mybox-header">
+        <h2>Ma Box Scolaire</h2>
+        <p id="school-info">Aucune école sélectionnée</p>
+      </div>
+
+      <div id="box-setup" class="box-setup">
+        <div class="setup-card">
+          <h3>Configurez votre Box</h3>
+          <p>Sélectionnez votre école et votre classe pour découvrir votre liste de fournitures personnalisée.</p>
+
+          <div class="setup-steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Choisir l'école</h4>
+                <input type="text" id="school-search" placeholder="Rechercher votre école...">
+                <div id="school-results" class="school-results"></div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Choisir la classe</h4>
+                <select id="class-select" disabled>
+                  <option value="">Sélectionnez d'abord une école</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <button id="create-box-btn" class="create-box-btn" disabled>
+                  Créer ma Box
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="box-content" class="box-content-section" style="display: none;">
+        <div class="box-visual">
+          <div class="interactive-box">
+            <div class="box-3d">
+              <div class="box-face box-front"></div>
+              <div class="box-face box-back"></div>
+              <div class="box-face box-left"></div>
+              <div class="box-face box-right"></div>
+              <div class="box-face box-top"></div>
+              <div class="box-face box-bottom"></div>
+              <div class="box-lid-3d"></div>
+            </div>
+            <button id="open-interactive-box" class="open-box-btn">Ouvrir la Box</button>
+          </div>
+        </div>
+
+        <div class="supplies-list">
+          <h3>Vos fournitures scolaires</h3>
+          <div id="supplies-grid" class="supplies-grid">
+            <!-- Les fournitures seront chargées ici -->
+          </div>
+
+          <div class="box-actions">
+            <button id="add-to-cart-btn" class="action-btn primary">Ajouter au panier</button>
+            <button id="save-box-btn" class="action-btn secondary">Sauvegarder la Box</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal du panier -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Votre Panier</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-total">
+        <strong>Total: <span id="cart-total">0</span> FCFA</strong>
+      </div>
+      <div class="cart-actions">
+        <button id="checkout-btn" class="checkout-btn">Commander</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/mybox.js"></script>
+</body>
+</html>

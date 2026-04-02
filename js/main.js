@@ -1,32 +1,56 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+import { Auth, Schools } from '/supabase.js';
 
-// ⚠️ window.env n'existe pas dans un projet HTML pur — mets tes valeurs directement ici
-const supabaseUrl = 'https://TON_URL.supabase.co';
-const supabaseKey = 'ta_clé_anonyme';
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const logo = document.querySelector('.logo');
   if (logo) logo.style.animation = 'logoPulse 2s infinite';
+
+  // Vérifier si l'utilisateur est connecté
+  const user = await Auth.getUser();
+  if (user) {
+    // Rediriger vers le dashboard si connecté
+    window.location.href = '/dashboard.html';
+  }
+
+  setupSchoolSearch();
 });
 
-document.getElementById('open-box-button').addEventListener('click', () => {
-  document.querySelector('.box').classList.toggle('open');
-});
+async function setupSchoolSearch() {
+  const searchButton = document.getElementById('search-button');
+  const searchInput = document.getElementById('school-search');
 
-document.getElementById('search-button').addEventListener('click', async () => {
-  const query = document.getElementById('school-search').value;
-  if (!query) return;
+  if (!searchButton) return;
 
-  const { data, error } = await supabase
-    .from('schools')
-    .select('*')
-    .ilike('name', `%${query}%`);
+  searchButton.addEventListener('click', async () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      alert('Veuillez saisir le nom d\'une école');
+      return;
+    }
 
-  if (error) {
-    console.error(error);
-    alert('Erreur lors de la recherche.');
-  } else {
-    alert(`Écoles trouvées : ${data.length}`);
+    try {
+      const schools = await Schools.search(query);
+      if (schools.length === 0) {
+        alert('Aucune école trouvée. Essayez un autre nom.');
+        return;
+      }
+
+      // Sauvegarder les résultats et rediriger vers la page de connexion/inscription
+      localStorage.setItem('school_search_results', JSON.stringify(schools));
+      localStorage.setItem('school_search_query', query);
+
+      alert(`${schools.length} école(s) trouvée(s). Connectez-vous pour continuer.`);
+      window.location.href = '/login.html';
+    } catch (error) {
+      console.error('Erreur recherche:', error);
+      alert('Erreur lors de la recherche. Veuillez réessayer.');
+    }
+  });
+}
+
+// Gestion de l'ouverture de la box (démonstration)
+document.getElementById('open-box-button')?.addEventListener('click', () => {
+  const box = document.querySelector('.box');
+  if (box) {
+    box.classList.toggle('open');
   }
 });

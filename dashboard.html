@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord - SchoolBox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1>School<span class="box">Box</span></h1>
+      </div>
+      <div class="nav-menu">
+        <a href="/dashboard.html" class="nav-link active">Tableau de bord</a>
+        <a href="/mybox.html" class="nav-link">Ma Box</a>
+        <a href="/orders.html" class="nav-link">Mes Commandes</a>
+        <button id="logout-btn" class="nav-link logout-btn">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h2>Bonjour, <span id="user-name">Utilisateur</span> !</h2>
+        <p>Bienvenue sur votre tableau de bord SchoolBox</p>
+      </div>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-content">
+            <h3>Ma Box</h3>
+            <p id="box-status">Non configurée</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🛒</div>
+          <div class="stat-content">
+            <h3>Commandes</h3>
+            <p id="orders-count">0 commande(s)</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-content">
+            <h3>Économies</h3>
+            <p id="savings">0 FCFA</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <div class="action-card">
+          <h3>Configurer ma Box</h3>
+          <p>Sélectionnez votre école et votre classe pour créer votre liste de fournitures personnalisée.</p>
+          <button id="configure-box-btn" class="action-btn">Commencer</button>
+        </div>
+        <div class="action-card">
+          <h3>Explorer les produits</h3>
+          <p>Découvrez tous nos produits scolaires et faites votre shopping.</p>
+          <button id="explore-products-btn" class="action-btn secondary">Explorer</button>
+        </div>
+      </div>
+
+      <div class="recent-orders">
+        <h3>Commandes récentes</h3>
+        <div id="orders-list" class="orders-list">
+          <p class="no-orders">Aucune commande récente</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

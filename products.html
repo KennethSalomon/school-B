@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produits - SchoolBox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/products.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1>School<span class="box">Box</span></h1>
+      </div>
+      <div class="nav-menu">
+        <a href="/dashboard.html" class="nav-link">Tableau de bord</a>
+        <a href="/mybox.html" class="nav-link">Ma Box</a>
+        <a href="/products.html" class="nav-link active">Produits</a>
+        <button id="logout-btn" class="nav-link logout-btn">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="products-main">
+    <div class="products-container">
+      <div class="products-header">
+        <h2>Nos Produits Scolaires</h2>
+        <p>Découvrez notre gamme complète de fournitures scolaires</p>
+      </div>
+
+      <div class="products-controls">
+        <div class="search-bar">
+          <input type="text" id="product-search" placeholder="Rechercher un produit...">
+          <button id="search-btn">🔍</button>
+        </div>
+        <div class="category-filters">
+          <button class="category-btn active" data-category="all">Tous</button>
+          <button class="category-btn" data-category="cahiers">Cahiers</button>
+          <button class="category-btn" data-category="stylos">Stylos</button>
+          <button class="category-btn" data-category="trousse">Trousse</button>
+          <button class="category-btn" data-category="autres">Autres</button>
+        </div>
+      </div>
+
+      <div id="products-grid" class="products-grid">
+        <div class="loading">Chargement des produits...</div>
+      </div>
+
+      <div class="cart-summary" id="cart-summary" style="display: none;">
+        <div class="cart-info">
+          <span id="cart-count">0 article(s)</span>
+          <span id="cart-total">0 FCFA</span>
+        </div>
+        <button id="view-cart-btn" class="view-cart-btn">Voir le panier</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal du panier -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Votre Panier</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-total">
+        <strong>Total: <span id="modal-cart-total">0</span> FCFA</strong>
+      </div>
+      <div class="cart-actions">
+        <button id="checkout-btn" class="checkout-btn">Commander</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/products.js"></script>
+</body>
+</html>

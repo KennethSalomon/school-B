@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Commandes - SchoolBox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/orders.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1>School<span class="box">Box</span></h1>
+      </div>
+      <div class="nav-menu">
+        <a href="/dashboard.html" class="nav-link">Tableau de bord</a>
+        <a href="/mybox.html" class="nav-link">Ma Box</a>
+        <a href="/orders.html" class="nav-link active">Mes Commandes</a>
+        <button id="logout-btn" class="nav-link logout-btn">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="orders-main">
+    <div class="orders-container">
+      <div class="orders-header">
+        <h2>Mes Commandes</h2>
+        <p>Suivez l'état de vos commandes SchoolBox</p>
+      </div>
+
+      <div class="orders-filters">
+        <button class="filter-btn active" data-filter="all">Toutes</button>
+        <button class="filter-btn" data-filter="pending">En attente</button>
+        <button class="filter-btn" data-filter="confirmed">Confirmées</button>
+        <button class="filter-btn" data-filter="shipped">Expédiées</button>
+        <button class="filter-btn" data-filter="delivered">Livrées</button>
+      </div>
+
+      <div id="orders-list" class="orders-list">
+        <div class="loading">Chargement de vos commandes...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de détails de commande -->
+  <div id="order-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Détails de la commande <span id="order-id"></span></h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div id="order-details" class="order-details">
+        <!-- Les détails seront chargés ici -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/orders.js"></script>
+</body>
+</html>

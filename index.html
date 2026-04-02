@@ -15,20 +15,85 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <div class="logo-container">
-    <h1 class="logo">School<span class="box">Box</span></h1>
-  </div>
-  <div class="search-container">
-    <input type="text" id="school-search" placeholder="Recherchez votre école...">
-    <button id="search-button">Rechercher</button>
-  </div>
-  <div class="box-container">
-    <div class="box" id="school-box">
-      <div class="box-lid" id="box-lid"></div>
-      <div class="box-content" id="box-content"></div>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <h1>School<span class="box">Box</span></h1>
+      </div>
+      <div class="nav-menu">
+        <a href="/index.html" class="nav-link active">Accueil</a>
+        <a href="/login.html" class="nav-link">Connexion</a>
+        <a href="/products.html" class="nav-link">Produits</a>
+      </div>
     </div>
-    <button id="open-box-button">Ouvrir ma Box</button>
+  </nav>
+
+  <div class="hero-section">
+    <div class="logo-container">
+      <h1 class="logo">School<span class="box">Box</span></h1>
+      <p class="hero-subtitle">Votre box de fournitures scolaires personnalisée</p>
+    </div>
   </div>
+
+  <div class="main-content">
+    <div class="search-container">
+      <h2>Trouvez votre école</h2>
+      <input type="text" id="school-search" placeholder="Recherchez votre école...">
+      <button id="search-button">Rechercher</button>
+    </div>
+
+    <div class="features-section">
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3>Écoles partenaires</h3>
+        <p>Plus de 500 écoles partenaires à travers le Bénin</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Box personnalisée</h3>
+        <p>Une sélection de fournitures adaptée à votre classe</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Livraison rapide</h3>
+        <p>Livraison à domicile en 24-48h</p>
+      </div>
+    </div>
+
+    <div class="box-container">
+      <div class="box" id="school-box">
+        <div class="box-lid" id="box-lid"></div>
+        <div class="box-content" id="box-content">
+          <p>Découvrez ce qui se cache dans votre Box !</p>
+        </div>
+      </div>
+      <button id="open-box-button">Ouvrir la Box</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>SchoolBox</h4>
+        <p>Votre partenaire pour les fournitures scolaires au Bénin.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Liens utiles</h4>
+        <a href="/login.html">Connexion</a>
+        <a href="/products.html">Produits</a>
+        <a href="/dashboard.html">Mon compte</a>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p>📧 contact@schoolbox.bj</p>
+        <p>📱 +229 XX XX XX XX</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 SchoolBox. Tous droits réservés.</p>
+    </div>
+  </footer>
+
   <!-- Chargement du script principal -->
   <script type="module" src="/js/main.js"></script>
 </body>
