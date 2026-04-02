@@ -1,23 +1,19 @@
-// Initialisation de Supabase
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
 
-const supabaseUrl = window.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = window.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// ⚠️ window.env n'existe pas dans un projet HTML pur — mets tes valeurs directement ici
+const supabaseUrl = 'https://TON_URL.supabase.co';
+const supabaseKey = 'ta_clé_anonyme';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Animation du logo
 document.addEventListener('DOMContentLoaded', () => {
   const logo = document.querySelector('.logo');
-  logo.style.animation = 'logoPulse 2s infinite';
+  if (logo) logo.style.animation = 'logoPulse 2s infinite';
 });
 
-// Animation de la box
 document.getElementById('open-box-button').addEventListener('click', () => {
-  const box = document.querySelector('.box');
-  box.classList.toggle('open');
+  document.querySelector('.box').classList.toggle('open');
 });
 
-// Recherche d'écoles
 document.getElementById('search-button').addEventListener('click', async () => {
   const query = document.getElementById('school-search').value;
   if (!query) return;
@@ -29,9 +25,8 @@ document.getElementById('search-button').addEventListener('click', async () => {
 
   if (error) {
     console.error(error);
-    alert("Erreur lors de la recherche.");
+    alert('Erreur lors de la recherche.');
   } else {
-    console.log(data);
     alert(`Écoles trouvées : ${data.length}`);
   }
 });
