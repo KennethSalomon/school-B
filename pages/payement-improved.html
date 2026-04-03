@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement | SchoolBox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f48c25;
+      --primary-dark: #d97a18;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --error: #dc2626;
+      --success: #059669;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb .active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .payment-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(244, 140, 37, 0.1);
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .payment-option {
+      position: relative;
+    }
+
+    .payment-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .payment-option label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0;
+      transition: all 0.2s;
+    }
+
+    .payment-option input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background: rgba(244, 140, 37, 0.05);
+    }
+
+    .payment-icon {
+      font-size: 1.5rem;
+      width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-label-text {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .payment-label-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* SIDEBAR */
+    .order-summary {
+      position: sticky;
+      top: 20px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .summary-item.total {
+      border-top: 2px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+
+    .security-info {
+      background: rgba(5, 150, 105, 0.05);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--success);
+    }
+
+    .pay-button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), #ff9d4d);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 30px;
+    }
+
+    .pay-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(244, 140, 37, 0.3);
+    }
+
+    .pay-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .pay-button.loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .pay-button.loading::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      top: 50%;
+      left: 50%;
+      margin-left: -9px;
+      margin-top: -9px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-message {
+      background: #fee;
+      border: 1px solid var(--error);
+      color: var(--error);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .order-summary {
+        position: static;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+
+      .breadcrumb {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>💳 Paiement Sécurisé</h1>
+      <p>Finalisez votre commande en toute confiance</p>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+      <span>Panier</span>
+      <span>|</span>
+      <span class="active">Paiement</span>
+      <span>|</span>
+      <span>Confirmation</span>
+    </div>
+
+    <div class="payment-grid">
+      <!-- FORMULAIRE DE PAIEMENT -->
+      <div class="payment-form">
+        <div class="error-message" id="error-message"></div>
+
+        <!-- INFORMATIONS PERSONNELLES -->
+        <div class="form-section">
+          <h3>Informations Personnelles</h3>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="votre@email.com"
+              readonly
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Téléphone de paiement</label>
+            <input
+              type="tel"
+              id="phone"
+              placeholder="+229 90 00 00 00"
+              required
+            >
+            <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+              Pour les paiements par mobile money
+            </small>
+          </div>
+        </div>
+
+        <!-- ADRESSE DE LIVRAISON -->
+        <div class="form-section">
+          <h3>Adresse de Livraison</h3>
+          
+          <div class="form-group">
+            <label for="fullname">Nom complet</label>
+            <input
+              type="text"
+              id="fullname"
+              placeholder="Jean Dupont"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="address">Adresse</label>
+            <input
+              type="text"
+              id="address"
+              placeholder="Abidjan, Plateau"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="city">Ville</label>
+            <select id="city" required>
+              <option value="">--- Sélectionnez une ville ---</option>
+              <option value="Abidjan">Abidjan</option>
+              <option value="Yamoussoukro">Yamoussoukro</option>
+              <option value="Bouaké">Bouaké</option>
+              <option value="Daloa">Daloa</option>
+              <option value="Korhogo">Korhogo</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CHOIX MODE PAIEMENT -->
+        <div class="form-section">
+          <h3>Mode de Paiement</h3>
+          
+          <div class="payment-methods">
+            <div class="payment-option">
+              <input type="radio" id="mobile-money" name="payment" value="mobile_money" checked required>
+              <label for="mobile-money">
+                <div class="payment-icon">📱</div>
+                <div>
+                  <div class="payment-label-text">Mobile Money</div>
+                  <div class="payment-label-desc">MTN, Orange Money</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="payment-option">
+              <input type="radio" id="card" name="payment" value="card" required>
+              <label for="card">
+                <div class="payment-icon">💳</div>
+                <div>
+                  <div class="payment-label-text">Carte Bancaire</div>
+                  <div class="payment-label-desc">Visa, MasterCard</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div style="display: none;" id="card-info">
+            <div class="form-group">
+              <label for="card-number">Numéro de carte</label>
+              <input
+                type="text"
+                id="card-number"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19"
+              >
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label for="card-expiry">Expiration</label>
+                <input
+                  type="text"
+                  id="card-expiry"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <input
+                  type="text"
+                  id="card-cvv"
+                  placeholder="123"
+                  maxlength="4"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONDITIONS -->
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 0;">
+          <input type="checkbox" id="terms" required>
+          <label for="terms" style="margin: 0; flex: 1;">
+            J'accepte les <a href="#" style="color: var(--primary);">conditions de paiement</a>
+          </label>
+        </div>
+
+        <button type="button" class="pay-button" id="pay-button" onclick="processPayment()">
+          Payer maintenant
+        </button>
+      </div>
+
+      <!-- RÉSUMÉ COMMANDE -->
+      <div class="order-summary">
+        <div class="summary-card">
+          <h3>Résumé de Commande</h3>
+          
+          <div id="cart-items-summary">
+            <p style="color: var(--text-muted);">Chargement...</p>
+          </div>
+
+          <div class="summary-item">
+            <span>Sous-total</span>
+            <strong id="subtotal">0</strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Taxe (19%)</span>
+            <strong id="tax">0</strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Livraison</span>
+            <strong id="shipping">0</strong>
+          </div>
+
+          <div class="summary-item total">
+            <span>Total à payer</span>
+            <strong id="total">0</strong>
+          </div>
+
+          <div class="security-info">
+            🔒 Paiement 100% sécurisé par Fedapay
+            <br>
+            Vos données bancaires sont chiffrées
+          </div>
+        </div>
+
+        <div class="summary-card" style="background: rgba(244, 140, 37, 0.05); border-color: var(--primary);">
+          <h3 style="color: var(--primary);">💡 Besoin d'aide ?</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Contactez notre support:<br>
+            <strong>+229 90 00 00 00</strong><br>
+            <strong>support@schoolbox.bj</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { authService } from '/js/services/auth.service.js';
+    import { cartService } from '/js/services/cart.service.js';
+    import { paymentService } from '/js/services/payment.service.js';
+    import { orderService } from '/js/services/order.service.js';
+    import { UtilService, NotificationService } from '/js/services/api.service.js';
+
+    // === INITIALISATION ===
+    async function init() {
+      const isAuth = await authService.checkAuth();
+      if (!isAuth) {
+        window.location.href = '/pages/auth.html';
+        return;
+      }
+
+      const user = authService.getCurrentUser();
+      document.getElementById('email').value = user?.email || '';
+
+      updateSummary();
+      
+      // Afficher/masquer champs carte selon choix
+      document.querySelectorAll('input[name="payment"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          document.getElementById('card-info').style.display = 
+            e.target.value === 'card' ? 'block' : 'none';
+        });
+      });
+    }
+
+    // === METTRE À JOUR RÉSUMÉ ===
+    function updateSummary() {
+      const summary = cartService.getSummary();
+
+      const itemsHtml = summary.items.map(item => `
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem;">
+          <span>${item.productName} <small>(x${item.quantity})</small></span>
+          <span>${UtilService.formatCurrency(item.price * item.quantity)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('cart-items-summary').innerHTML = itemsHtml || '<p>Aucun article</p>';
+      document.getElementById('subtotal').textContent = UtilService.formatCurrency(summary.subtotal);
+      document.getElementById('tax').textContent = UtilService.formatCurrency(summary.tax);
+      document.getElementById('shipping').textContent = UtilService.formatCurrency(summary.shipping);
+      document.getElementById('total').textContent = UtilService.formatCurrency(summary.total);
+    }
+
+    // === TRAITER LE PAIEMENT ===
+    window.processPayment = async function() {
+      const button = document.getElementById('pay-button');
+      const errorDiv = document.getElementById('error-message');
+
+      try {
+        // Réinitialiser erreur
+        errorDiv.classList.remove('show');
+
+        // Valider formulaire
+        const fullname = document.getElementById('fullname').value;
+        const address = document.getElementById('address').value;
+        const city = document.getElementById('city').value;
+        const phone = document.getElementById('phone').value;
+        const terms = document.getElementById('terms').checked;
+
+        if (!fullname || !address || !city || !phone) {
+          throw new Error('Veuillez remplir tous les champs');
+        }
+
+        if (!terms) {
+          throw new Error('Vous devez accepter les conditions');
+        }
+
+        // Valider panier
+        const validation = cartService.validate();
+        if (!validation.isValid) {
+          throw new Error(validation.errors[0] || 'Panier invalide');
+        }
+
+        // Vérifier montant minimum Fedapay
+        const summary = cartService.getSummary();
+        if (summary.total < 100) {
+          throw new Error('Le montant minimum est 100 FCFA');
+        }
+
+        button.classList.add('loading');
+        button.disabled = true;
+
+        // Créer la commande
+        const user = authService.getCurrentUser();
+        const orderData = cartService.prepareOrderData(user.id, {
+          fullName: fullname,
+          address: address,
+          city: city,
+          phone: phone
+        });
+
+        const order = await orderService.createOrder(orderData);
+
+        // Initier le paiement Fedapay
+        const paymentData = {
+          orderId: order.id,
+          amount: summary.total,
+          currency: 'XOF',
+          description: `Commande #${order.id} SchoolBox`,
+          paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+          customerInfo: {
+            firstName: fullname.split(' ')[0],
+            lastName: fullname.split(' ').slice(1).join(' '),
+            email: user.email,
+            phone: phone
+          }
+        };
+
+        // ⚠️ NOTE: L'appel réel à Fedapay doit se faire via votre backend
+        // Pour sécurité (clés secrètes), ne pas exposer en frontend
+        // Code ci-montre la structure - à adapter avec votre backend
+
+        NotificationService.success('Redirection vers le paiement...');
+        
+        setTimeout(() => {
+          // En production: appeler votre backend API
+          // const response = await fetch('/api/payments/initiate', {
+          //   method: 'POST',
+          //   body: JSON.stringify(paymentData)
+          // });
+          //const transaction = await response.json();
+          //window.location.href = transaction.paymentUrl;
+
+          // Pour test: rediriger vers pages de confirmation
+          window.location.href = `/pages/confirmation.html?orderId=${order.id}`;
+        }, 1500);
+
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        errorDiv.classList.add('show');
+        NotificationService.error(error.message);
+      } finally {
+        button.classList.remove('loading');
+        button.disabled = false;
+      }
+    };
+
+    init();
+  </script>
+</body>
+</html>

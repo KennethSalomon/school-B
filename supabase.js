@@ -69,7 +69,7 @@ export const Schools = {
 
 // ── Fournitures ──
 export const Products = {
-  async getBySchoolAndClass(schoolId, classeId) {
+  async getBySchoolAndClass(schoolId, classId) {
     const { data, error } = await supabase
       .from('school_lists')
       .select(`
@@ -78,7 +78,7 @@ export const Products = {
           product_variants(id, quality, price, stock))
       `)
       .eq('school_id', schoolId)
-      .eq('classe_id', classeId);
+      .eq('class_id', classId);
     if (error) throw error;
     return data;
   },

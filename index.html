@@ -1,100 +1,440 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SchoolBox</title>
-  <!-- Chargement de la police Poppins depuis Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Chargement des styles CSS avec des chemins relatifs -->
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/animations.css">
-  <!-- Tailwind CSS en CDN (optionnel, si tu veux l'utiliser) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolBox - Fournitures Scolaires au Bénin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #f48c25;
+            --primary-dark: #e67e22;
+            --primary-light: rgba(244, 140, 37, 0.1);
+            --text: #1a202c;
+            --text-muted: #718096;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: var(--white);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 99px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 140, 37, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 24px;
+            border-radius: 99px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1a237e;
+        }
+
+        .hero {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 16px 40px;
+            font-size: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-large.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-large.primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-4px);
+        }
+
+        .btn-large.secondary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-large.secondary:hover {
+            background: #f0f0f0;
+        }
+
+        section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .boxes-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .box-preview {
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box-preview.standard {
+            background: linear-gradient(135deg, #f48c25, #e67e22);
+        }
+
+        .box-preview.safe {
+            background: linear-gradient(135deg, #1a237e, #283593);
+        }
+
+        .box-preview.premium {
+            background: linear-gradient(135deg, #111, #2d2d2d);
+        }
+
+        .box-preview-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .box-preview-price {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .box-preview-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: var(--radius);
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-large {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">
-        <h1>School<span class="box">Box</span></h1>
-      </div>
-      <div class="nav-menu">
-        <a href="/index.html" class="nav-link active">Accueil</a>
-        <a href="/login.html" class="nav-link">Connexion</a>
-        <a href="/products.html" class="nav-link">Produits</a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="hero-section">
-    <div class="logo-container">
-      <h1 class="logo">School<span class="box">Box</span></h1>
-      <p class="hero-subtitle">Votre box de fournitures scolaires personnalisée</p>
-    </div>
-  </div>
-
-  <div class="main-content">
-    <div class="search-container">
-      <h2>Trouvez votre école</h2>
-      <input type="text" id="school-search" placeholder="Recherchez votre école...">
-      <button id="search-button">Rechercher</button>
-    </div>
-
-    <div class="features-section">
-      <div class="feature-card">
-        <div class="feature-icon">🎓</div>
-        <h3>Écoles partenaires</h3>
-        <p>Plus de 500 écoles partenaires à travers le Bénin</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📦</div>
-        <h3>Box personnalisée</h3>
-        <p>Une sélection de fournitures adaptée à votre classe</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚚</div>
-        <h3>Livraison rapide</h3>
-        <p>Livraison à domicile en 24-48h</p>
-      </div>
-    </div>
-
-    <div class="box-container">
-      <div class="box" id="school-box">
-        <div class="box-lid" id="box-lid"></div>
-        <div class="box-content" id="box-content">
-          <p>Découvrez ce qui se cache dans votre Box !</p>
+    <header>
+        <div class="container">
+            <div class="logo">
+                🎒 SchoolBox
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-secondary" onclick="window.location.href='pages/auth.html'">Connexion</button>
+                <button class="btn-primary" onclick="window.location.href='pages/auth.html'">S'inscrire</button>
+            </div>
         </div>
-      </div>
-      <button id="open-box-button">Ouvrir la Box</button>
-    </div>
-  </div>
+    </header>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>SchoolBox</h4>
-        <p>Votre partenaire pour les fournitures scolaires au Bénin.</p>
-      </div>
-      <div class="footer-section">
-        <h4>Liens utiles</h4>
-        <a href="/login.html">Connexion</a>
-        <a href="/products.html">Produits</a>
-        <a href="/dashboard.html">Mon compte</a>
-      </div>
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <p>📧 contact@schoolbox.bj</p>
-        <p>📱 +229 XX XX XX XX</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 SchoolBox. Tous droits réservés.</p>
-    </div>
-  </footer>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Toutes les fournitures scolaires réunies</h1>
+                <p>SchoolBox vous propose des packs complets et adaptés pour chaque niveau scolaire. Commandez simplement et recevez en 24-48h.</p>
+                <div class="hero-buttons">
+                    <button class="btn-large primary" onclick="window.location.href='pages/auth.html'">Commander maintenant</button>
+                    <button class="btn-large secondary" onclick="document.querySelector('.boxes-section').scrollIntoView({behavior: 'smooth'})">Découvrir les packs</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Chargement du script principal -->
-  <script type="module" src="/js/main.js"></script>
+    <section>
+        <div class="container">
+            <h2 class="section-title">Pourquoi choisir SchoolBox?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Packs adaptés</h3>
+                    <p>Des boxes spécialement conçues pour chaque niveau scolaire (6e, 5e, 4e, 3e, 2de, 1ère)</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Livraison rapide</h3>
+                    <p>Livraison en 24-48h partout au Bénin avec suivi en temps réel</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Prix compétitifs</h3>
+                    <p>Les meilleurs prix du marché avec des réductions pour les achats groupés</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Qualité garantie</h3>
+                    <p>Tous les produits sont sélectionnés pour leur qualité et durabilité</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>100% sécurisé</h3>
+                    <p>Paiements sécurisés et protection des données personnelles</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>Support client</h3>
+                    <p>Une équipe disponible pour répondre à vos questions 7j/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="boxes-section" style="background: var(--bg);">
+        <div class="container">
+            <h2 class="section-title">Nos boxes scolaires</h2>
+            <div class="boxes-preview">
+                <div class="box-preview standard">
+                    <div class="box-preview-title">📚 STANDARD</div>
+                    <div class="box-preview-price">15 000 FCFA</div>
+                    <div class="box-preview-desc">
+                        L'essentiel au meilleur prix.<br><br>
+                        • 20 fournitures essentielles<br>
+                        • Cahiers 96 pages x6<br>
+                        • Kit stylos & crayons<br>
+                        • Trousse incluse
+                    </div>
+                </div>
+                <div class="box-preview safe">
+                    <div class="box-preview-title">🛡️ SAFE</div>
+                    <div class="box-preview-price">25 000 FCFA</div>
+                    <div class="box-preview-desc">
+                        Le pack haute résistance.<br><br>
+                        • 32 fournitures renforcées<br>
+                        • Cahiers Oxford 200 pages x4<br>
+                        • Stylos Bic & Stabilo<br>
+                        • Calculatrice scientifique
+                    </div>
+                </div>
+                <div class="box-preview premium">
+                    <div class="box-preview-title">👑 PREMIUM</div>
+                    <div class="box-preview-price">45 000 FCFA</div>
+                    <div class="box-preview-desc">
+                        Le top du top.<br><br>
+                        • 48 fournitures premium<br>
+                        • Marques emblématiques<br>
+                        • Calculatrice Casio Graph<br>
+                        • Sac Eastpak + agenda
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Prêt à préparer la rentrée?</h2>
+            <p>Rejoignez des milliers de parents satisfaits qui font confiance à SchoolBox</p>
+            <button class="btn-large primary" onclick="window.location.href='pages/auth.html'">Commencer les achats →</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SchoolBox. Tous les droits réservés. | Plateforme de fournitures scolaires au Bénin.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Vérifier si l'utilisateur est déjà connecté
+        window.addEventListener('load', async () => {
+            const userToken = localStorage.getItem('auth_token');
+            if (userToken) {
+                // Rediriger vers le dashboard
+                window.location.href = '/dashboard.html';
+            }
+        });
+    </script>
 </body>
 </html>

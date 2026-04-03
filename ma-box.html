@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ma Box — SCHOOL BOX</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+:root{--primary:#f48c25;--primary-dark:#d97a18;--primary-light:rgba(244,140,37,0.10);--navy:#1A237E;--navy-light:rgba(26,35,126,0.08);--teal:#13d8aa;--bg:#f5f4f1;--surface:#ffffff;--text:#111827;--text-muted:#6b7280;--border:rgba(0,0,0,0.07);--shadow:0 4px 24px rgba(0,0,0,0.08);--radius:18px;--radius-sm:12px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+.main-content{margin-left:260px;flex:1}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:10px}
+.logo-icon{width:40px;height:40px;background:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.logo-text{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.15rem;color:var(--text)}
+.logo-text span{color:var(--primary)}
+.sidebar-nav{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:12px 12px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.18s;color:var(--text-muted);text-decoration:none;font-weight:500;font-size:0.9rem;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+.nav-item .material-symbols-outlined{font-size:20px}
+.nav-badge{margin-left:auto;background:var(--primary);color:white;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:99px;font-family:'Montserrat',sans-serif}
+.sidebar-user{padding:16px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm);cursor:pointer}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#ff6b00);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.95rem;flex-shrink:0}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:all 0.18s}
+.topbar-btn:hover{background:var(--border);color:var(--text)}
+.page-body{padding:32px}
+
+/* BOX SELECTOR */
+.box-selector-header{margin-bottom:32px}
+.section-title{font-family:'Lexend',sans-serif;font-weight:700;font-size:1.35rem;color:var(--text);margin-bottom:6px}
+.section-sub{font-size:0.88rem;color:var(--text-muted)}
+
+/* CLASS STEPPER */
+.stepper{display:flex;align-items:center;gap:0;background:var(--surface);border-radius:var(--radius);padding:8px;border:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,0.06);margin-bottom:32px;overflow-x:auto}
+.step-tab{flex:1;min-width:80px;padding:12px 8px;border-radius:var(--radius-sm);border:none;background:transparent;cursor:pointer;text-align:center;transition:all 0.2s;font-weight:600;font-size:0.85rem;color:var(--text-muted)}
+.step-tab:hover{background:var(--bg)}
+.step-tab.active{background:var(--navy);color:white;box-shadow:0 4px 16px rgba(26,35,126,0.25)}
+.step-tab .grade-num{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.2rem;display:block;margin-bottom:2px}
+.step-tab .grade-lbl{font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;opacity:0.75}
+
+/* BOX CARDS GRID */
+.boxes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px}
+.box-card{border-radius:var(--radius);padding:28px 24px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;color:white}
+.box-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.box-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+.box-card.selected{outline:4px solid white;box-shadow:0 0 0 6px var(--primary)}
+.box-card-orange{background:linear-gradient(135deg,#f48c25,#e67e22)}
+.box-card-navy{background:linear-gradient(135deg,#1A237E,#283593)}
+.box-card-black{background:linear-gradient(135deg,#111,#2d2d2d)}
+.box-edition-tag{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.75;margin-bottom:12px}
+.box-card-icon{font-size:2.5rem;margin-bottom:14px;display:block}
+.box-card-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;margin-bottom:6px}
+.box-card-price{font-family:'Montserrat',sans-serif;font-weight:900;font-size:2rem;margin-bottom:14px}
+.box-card-price small{font-size:0.9rem;font-weight:600;opacity:0.8}
+.box-card-desc{font-size:0.82rem;line-height:1.6;opacity:0.85;margin-bottom:20px}
+.box-features{list-style:none;margin-bottom:24px}
+.box-features li{display:flex;align-items:center;gap:8px;font-size:0.8rem;opacity:0.9;margin-bottom:6px}
+.box-features li::before{content:'✓';font-weight:700;color:rgba(255,255,255,0.9)}
+.btn-select{width:100%;padding:13px;border-radius:99px;border:none;font-family:'Montserrat',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-select-white{background:white;color:var(--text)}
+.btn-select-navy{background:white;color:var(--navy)}
+.btn-select-gold{background:var(--primary);color:white}
+
+/* CONTENTS PREVIEW */
+.contents-section{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow)}
+.contents-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.contents-title{font-weight:700;font-size:1.05rem}
+.qty-badge{background:var(--primary-light);color:var(--primary);font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:99px;font-family:'Montserrat',sans-serif}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0}
+.product-item{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px;transition:background 0.15s;cursor:default}
+.product-item:hover{background:var(--bg)}
+.product-img{width:60px;height:60px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:12px;background:var(--bg)}
+.product-name{font-weight:600;font-size:0.85rem;color:var(--text);margin-bottom:4px}
+.product-brand{font-size:0.73rem;color:var(--text-muted);margin-bottom:4px}
+.product-qty{font-size:0.72rem;font-weight:700;color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:99px;display:inline-block}
+
+.contents-footer{padding:20px 28px;background:var(--bg);display:flex;align-items:center;justify-content:space-between}
+.total-price{font-family:'Lexend',sans-serif;font-weight:700;font-size:1.3rem;color:var(--text)}
+.btn-add-cart{display:flex;align-items:center;gap:8px;background:var(--primary);color:white;border:none;border-radius:var(--radius-sm);padding:13px 24px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.88rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 6px 20px rgba(244,140,37,0.3)}
+.btn-add-cart:hover{background:var(--primary-dark);transform:translateY(-2px)}
+.btn-add-cart .material-symbols-outlined{font-size:18px}
+
+/* TOAST & MODAL */
+#toast{position:fixed;bottom:28px;right:28px;background:#111827;color:white;padding:13px 20px;border-radius:12px;font-size:0.85rem;font-weight:500;opacity:0;transform:translateY(10px);transition:all 0.3s;z-index:999;pointer-events:none;display:flex;align-items:center;gap:8px}
+#toast.show{opacity:1;transform:translateY(0)}
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.active{display:flex}
+.modal-box{background:white;border-radius:24px;padding:40px;max-width:440px;width:90%;text-align:center;animation:popIn 0.3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+
+@media(max-width:1100px){.boxes-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0}.topbar{padding:14px 20px}.page-body{padding:20px 16px}.boxes-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-logo"><div class="logo-mark"><div class="logo-icon">🎒</div><div class="logo-text">SCHOOL<span>BOX</span></div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Menu principal</div>
+    <a class="nav-item" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span>Tableau de bord</a>
+    <a class="nav-item active" href="ma-box.html"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">inventory_2</span>Ma Box<span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="produits.html"><span class="material-symbols-outlined">category</span>Produits</a>
+    <a class="nav-item" href="commandes.html"><span class="material-symbols-outlined">receipt_long</span>Mes commandes<span class="nav-badge">2</span></a>
+    <div class="nav-section-label" style="margin-top:12px">Mon compte</div>
+    <a class="nav-item" href="profil.html"><span class="material-symbols-outlined">person</span>Profil</a>
+    <a class="nav-item" href="#"><span class="material-symbols-outlined">notifications</span>Notifications<span class="nav-badge">3</span></a>
+    <div style="height:16px"></div>
+    <a class="nav-item" href="index.html" style="color:#ef4444"><span class="material-symbols-outlined">logout</span>Déconnexion</a>
+  </nav>
+  <div class="sidebar-user"><div class="user-card"><div class="user-avatar">JD</div><div><div style="font-weight:600;font-size:0.88rem">Jean Dupont</div><div style="font-size:0.72rem;color:var(--text-muted)">Parent d'élève</div></div></div></div>
+</aside>
+
+<div class="main-content">
+  <header class="topbar">
+    <div>
+      <div style="font-family:'Lexend',sans-serif;font-weight:700;font-size:1.2rem">Ma Box 📦</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Choisissez et personnalisez votre box scolaire</div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="topbar-btn" onclick="window.location.href='commandes.html'"><span class="material-symbols-outlined">shopping_cart</span></button>
+      <button class="topbar-btn" onclick="window.location.href='profil.html'"><span class="material-symbols-outlined">person</span></button>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <div class="box-selector-header">
+      <div class="section-title">Sélectionnez la classe de votre enfant</div>
+      <div class="section-sub">Les fournitures s'adaptent automatiquement selon le niveau scolaire</div>
+    </div>
+
+    <!-- CLASS SELECTOR -->
+    <div class="stepper">
+      <button class="step-tab" onclick="selectGrade(this,'6e','Sixième')"><span class="grade-num">6e</span><span class="grade-lbl">Sixième</span></button>
+      <button class="step-tab active" onclick="selectGrade(this,'5e','Cinquième')"><span class="grade-num">5e</span><span class="grade-lbl">Cinquième</span></button>
+      <button class="step-tab" onclick="selectGrade(this,'4e','Quatrième')"><span class="grade-num">4e</span><span class="grade-lbl">Quatrième</span></button>
+      <button class="step-tab" onclick="selectGrade(this,'3e','Troisième')"><span class="grade-num">3e</span><span class="grade-lbl">Troisième</span></button>
+      <button class="step-tab" onclick="selectGrade(this,'2de','Seconde')"><span class="grade-num">2de</span><span class="grade-lbl">Seconde</span></button>
+      <button class="step-tab" onclick="selectGrade(this,'1ere','Première')"><span class="grade-num">1ère</span><span class="grade-lbl">Première</span></button>
+    </div>
+
+    <!-- BOX CARDS -->
+    <div class="boxes-grid">
+      <!-- STANDARD -->
+      <div class="box-card box-card-orange" id="card-standard" onclick="selectBox('STANDARD','15000',this)">
+        <div class="box-edition-tag">🟠 Orange Edition</div>
+        <span class="box-card-icon">🎓</span>
+        <div class="box-card-name">STANDARD</div>
+        <div class="box-card-price">15 000 <small>FCFA</small></div>
+        <div class="box-card-desc">L'essentiel au meilleur prix. Idéal pour démarrer l'année sereinement avec des produits de qualité.</div>
+        <ul class="box-features">
+          <li>20 fournitures essentielles</li>
+          <li>Cahiers 96 pages x6</li>
+          <li>Kit stylos & crayons</li>
+          <li>Règle, compas, équerre</li>
+          <li>Trousse incluse</li>
+        </ul>
+        <button class="btn-select btn-select-white">SÉLECTIONNER</button>
+      </div>
+
+      <!-- SAFE -->
+      <div class="box-card box-card-navy" id="card-safe" onclick="selectBox('SAFE','25000',this)">
+        <div class="box-edition-tag">🔵 Bleu Nuit Edition</div>
+        <span class="box-card-icon">🛡️</span>
+        <div class="box-card-name">SAFE</div>
+        <div class="box-card-price">25 000 <small>FCFA</small></div>
+        <div class="box-card-desc">Le pack haute résistance. Des fournitures renforcées conçues pour durer toute l'année sans accroc.</div>
+        <ul class="box-features">
+          <li>32 fournitures renforcées</li>
+          <li>Cahiers Oxford 200 pages x4</li>
+          <li>Stylos Bic & Stabilo</li>
+          <li>Calculatrice scientifique</li>
+          <li>Grand sac à dos inclus</li>
+        </ul>
+        <button class="btn-select btn-select-navy">SÉLECTIONNER</button>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="box-card box-card-black" id="card-premium" onclick="selectBox('PREMIUM','45000',this)">
+        <div class="box-edition-tag">⭐ Black Edition</div>
+        <span class="box-card-icon">👑</span>
+        <div class="box-card-name">PREMIUM</div>
+        <div class="box-card-price" style="color:var(--primary)">45 000 <small style="color:rgba(255,255,255,0.7)">FCFA</small></div>
+        <div class="box-card-desc">Le top du top. Marques emblématiques et accessoires exclusifs pour le meilleur matériel possible.</div>
+        <ul class="box-features">
+          <li>48 fournitures premium</li>
+          <li>Cahiers Rhodia & Clairefontaine</li>
+          <li>Kit Stabilo complet</li>
+          <li>Calculatrice Casio Graph</li>
+          <li>Sac Eastpak + agenda</li>
+        </ul>
+        <button class="btn-select btn-select-gold">SÉLECTIONNER</button>
+      </div>
+    </div>
+
+    <!-- CONTENTS PREVIEW -->
+    <div class="contents-section">
+      <div class="contents-header">
+        <div>
+          <div class="contents-title">Contenu de la <strong id="selected-box-name">SAFE BOX</strong> — <span id="selected-grade-name">5ème</span></div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px">Cliquez sur une box pour voir son contenu détaillé</div>
+        </div>
+        <div class="qty-badge" id="items-count">32 articles</div>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+      <div class="contents-footer">
+        <div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:4px">Total estimé</div>
+          <div class="total-price" id="total-price">25 000 FCFA <small style="font-size:0.75rem;font-weight:400;color:var(--text-muted)">+ 2 500 FCFA livraison</small></div>
+        </div>
+        <button class="btn-add-cart" onclick="addToCart()">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          Ajouter au panier
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Success modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div style="font-size:3.5rem;margin-bottom:16px">🎉</div>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.4rem;margin-bottom:8px">Ajouté au panier !</div>
+    <div style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:28px">Votre <strong id="modal-box-name">SAFE BOX</strong> a été ajoutée. Complétez votre commande pour la livraison 24-48h.</div>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button onclick="closeModal()" style="padding:12px 24px;border-radius:12px;border:2px solid var(--border);background:none;font-weight:600;cursor:pointer;font-size:0.88rem">Continuer</button>
+      <button onclick="window.location.href='commandes.html'" style="padding:12px 24px;border-radius:12px;border:none;background:var(--primary);color:white;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;font-size:0.88rem">Voir panier →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span class="material-symbols-outlined" style="font-size:18px">check_circle</span><span id="toast-msg"></span></div>
+
+<script>
+const allProducts = {
+  STANDARD: [
+    {icon:'📓',name:'Cahier 96 pages grands carreaux',brand:'Oxford',qty:'x6'},
+    {icon:'✒️',name:'Stylos bille bleus',brand:'Bic',qty:'x5'},
+    {icon:'✏️',name:'Crayons HB',brand:'Staedtler',qty:'x4'},
+    {icon:'📏',name:'Règle 30cm',brand:'Maped',qty:'x1'},
+    {icon:'📐',name:'Équerre + rapporteur',brand:'Maped',qty:'x2'},
+    {icon:'🖊️',name:'Compas scolaire',brand:'Maped',qty:'x1'},
+    {icon:'🎒',name:'Trousse scolaire',brand:'Générique',qty:'x1'},
+    {icon:'📌',name:'Surligneurs fluo',brand:'Stabilo',qty:'x3'},
+    {icon:'📋',name:'Carnet de correspondance',brand:'Générique',qty:'x1'},
+    {icon:'🗂️',name:'Pochettes plastiques',brand:'Exacompta',qty:'x10'},
+    {icon:'🗃️',name:'Classeur',brand:'Elba',qty:'x1'},
+    {icon:'🧮',name:'Calculatrice basique',brand:'Casio',qty:'x1'},
+  ],
+  SAFE: [
+    {icon:'📗',name:'Cahier Oxford 200 pages',brand:'Oxford',qty:'x4'},
+    {icon:'📘',name:'Cahier de brouillon',brand:'Oxford',qty:'x2'},
+    {icon:'✒️',name:'Stylos Bic 4 couleurs',brand:'Bic',qty:'x3'},
+    {icon:'✏️',name:'Crayons de couleur 24pcs',brand:'Stabilo',qty:'x1'},
+    {icon:'📏',name:'Règle inox 30cm',brand:'Maped',qty:'x1'},
+    {icon:'📐',name:'Kit géométrie complet',brand:'Maped',qty:'x1'},
+    {icon:'🔭',name:'Compas métal premium',brand:'Rotring',qty:'x1'},
+    {icon:'🎒',name:'Grand sac à dos 30L',brand:'Eastpak',qty:'x1'},
+    {icon:'📌',name:'Stabilo Boss x8 couleurs',brand:'Stabilo',qty:'x1'},
+    {icon:'🧮',name:'Calculatrice scientifique',brand:'Casio fx-92',qty:'x1'},
+    {icon:'📋',name:'Agenda scolaire 2025-26',brand:'Oberthur',qty:'x1'},
+    {icon:'🗂️',name:'Pochettes perforées x50',brand:'Exacompta',qty:'x1'},
+    {icon:'🗃️',name:'Classeur 4 anneaux',brand:'Leitz',qty:'x2'},
+    {icon:'🖊️',name:'Marqueurs permanents',brand:'Sharpie',qty:'x3'},
+    {icon:'📎',name:'Trombone + agrafe kit',brand:'Maped',qty:'x1'},
+    {icon:'🧲',name:'Post-it bloc',brand:'3M',qty:'x2'},
+  ],
+  PREMIUM: [
+    {icon:'📔',name:'Cahier Rhodia N°16',brand:'Rhodia',qty:'x6'},
+    {icon:'📒',name:'Cahier Clairefontaine',brand:'Clairefontaine',qty:'x4'},
+    {icon:'✒️',name:'Stylo Pilot FriXion',brand:'Pilot',qty:'x4'},
+    {icon:'🖊️',name:'Stylo plume Lamy',brand:'Lamy',qty:'x1'},
+    {icon:'✏️',name:'Set crayons Faber-Castell',brand:'Faber-Castell',qty:'x1'},
+    {icon:'📏',name:'Règle acier graduée',brand:'Rotring',qty:'x1'},
+    {icon:'📐',name:'Kit géométrie Rotring',brand:'Rotring',qty:'x1'},
+    {icon:'🔭',name:'Compas Rotring 700',brand:'Rotring',qty:'x1'},
+    {icon:'🎒',name:'Sac Eastpak Padded 24L',brand:'Eastpak',qty:'x1'},
+    {icon:'📌',name:'Stabilo Swing Cool x12',brand:'Stabilo',qty:'x1'},
+    {icon:'🧮',name:'Casio Graph 35+E',brand:'Casio',qty:'x1'},
+    {icon:'📋',name:'Agenda premium cuir',brand:'Exacompta',qty:'x1'},
+    {icon:'🗂️',name:'Chemises polypro couleurs',brand:'Exacompta',qty:'x20'},
+    {icon:'🗃️',name:'Classeur Leitz WOW',brand:'Leitz',qty:'x3'},
+    {icon:'📎',name:'Kit fournitures bureau',brand:'Maped',qty:'x1'},
+    {icon:'🔖',name:'Etiquettes autocollantes',brand:'Avery',qty:'x1'},
+    {icon:'🧲',name:'Post-it ultra x4 blocs',brand:'3M',qty:'x1'},
+    {icon:'📊',name:'Papier calque + millimétré',brand:'Clairefontaine',qty:'x1'},
+  ]
+};
+
+const gradeNames = {'6e':'Sixième','5e':'Cinquième','4e':'Quatrième','3e':'Troisième','2de':'Seconde','1ere':'Première'};
+let currentGrade = '5e';
+let currentBox = 'SAFE';
+let currentPrice = 25000;
+
+function selectGrade(btn, grade, name){
+  document.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  currentGrade = grade;
+  document.getElementById('selected-grade-name').textContent = name;
+  showToast(`Classe ${name} sélectionnée`);
+}
+
+function selectBox(boxType, price, el){
+  document.querySelectorAll('.box-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  currentBox = boxType;
+  currentPrice = parseInt(price);
+  document.getElementById('selected-box-name').textContent = boxType+' BOX';
+  document.getElementById('total-price').innerHTML = parseInt(price).toLocaleString('fr-FR')+' FCFA <small style="font-size:0.75rem;font-weight:400;color:var(--text-muted)">+ 2 500 FCFA livraison</small>';
+  renderProducts(boxType);
+  const counts = {STANDARD:20,SAFE:32,PREMIUM:48};
+  document.getElementById('items-count').textContent = counts[boxType]+' articles';
+}
+
+function renderProducts(boxType){
+  const products = allProducts[boxType]||allProducts.SAFE;
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = products.map(p=>`
+    <div class="product-item">
+      <div class="product-img">${p.icon}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-brand">${p.brand}</div>
+      <span class="product-qty">${p.qty}</span>
+    </div>
+  `).join('');
+}
+
+function addToCart(){
+  document.getElementById('modal-box-name').textContent = currentBox+' BOX';
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('active'); }
+document.getElementById('modal').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// Init
+renderProducts('SAFE');
+document.getElementById('card-safe').classList.add('selected');
+</script>
+</body>
+</html>

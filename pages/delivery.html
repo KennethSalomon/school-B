@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adresse de livraison | SchoolBox</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <h1>Où devons-nous envoyer votre SchoolBox ?</h1>
+
+  <form class="delivery-form">
+    <label for="address">Votre adresse complète</label>
+    <input type="text" id="address" placeholder="Numéro, rue, ville..." required>
+
+    <label for="details">Indications supplémentaires</label>
+    <input type="text" id="details" placeholder="Ex: porte, étage, code d'entrée...">
+
+    <div class="delivery-options">
+      <label>
+        <input type="radio" name="delivery" value="home" checked>
+        <div class="delivery-option">
+          <img src="/assets/icons/home-icon.svg" alt="Domicile">
+          <span>DOMICILE</span>
+        </div>
+      </label>
+      <label>
+        <input type="radio" name="delivery" value="office">
+        <div class="delivery-option">
+          <img src="/assets/icons/office-icon.svg" alt="Bureau">
+          <span>BUREAU</span>
+        </div>
+      </label>
+    </div>
+
+    <a href="/pages/payment.html" class="btn-primary">Continuer</a>
+  </form>
+</body>
+</html>

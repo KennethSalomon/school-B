@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mon Profil — SCHOOL BOX</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+:root{--primary:#f48c25;--primary-dark:#d97a18;--primary-light:rgba(244,140,37,0.10);--navy:#1A237E;--navy-light:rgba(26,35,126,0.08);--teal:#13d8aa;--bg:#f5f4f1;--surface:#ffffff;--text:#111827;--text-muted:#6b7280;--border:rgba(0,0,0,0.07);--shadow:0 4px 24px rgba(0,0,0,0.08);--radius:18px;--radius-sm:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+.main-content{margin-left:260px;flex:1}
+.sidebar-logo{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:10px}
+.logo-icon{width:40px;height:40px;background:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.logo-text{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.15rem;color:var(--text)}
+.logo-text span{color:var(--primary)}
+.sidebar-nav{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:12px 12px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.18s;color:var(--text-muted);text-decoration:none;font-weight:500;font-size:0.9rem;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:600}
+.nav-item .material-symbols-outlined{font-size:20px}
+.nav-badge{margin-left:auto;background:var(--primary);color:white;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:99px;font-family:'Montserrat',sans-serif}
+.sidebar-user{padding:16px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--radius-sm);cursor:pointer}
+.user-avatar-lg{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#ff6b00);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.95rem;flex-shrink:0}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;position:sticky;top:0;z-index:40}
+.page-body{padding:32px;display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:start}
+
+/* PROFILE CARD */
+.profile-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow)}
+.profile-hero{background:linear-gradient(135deg,var(--primary),#e67e22);padding:36px 24px;text-align:center;position:relative}
+.profile-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:20px;background:var(--surface);border-radius:50% 50% 0 0}
+.avatar-wrap{position:relative;display:inline-block;margin-bottom:16px}
+.avatar-circle{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,0.25);border:4px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:900;font-size:2rem;color:white;margin:0 auto}
+.avatar-edit-btn{position:absolute;bottom:0;right:-4px;width:28px;height:28px;border-radius:50%;background:var(--navy);border:2px solid white;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white}
+.avatar-edit-btn .material-symbols-outlined{font-size:14px}
+.profile-name{font-family:'Lexend',sans-serif;font-weight:700;font-size:1.25rem;color:white;margin-bottom:4px}
+.profile-role{font-size:0.82rem;color:rgba(255,255,255,0.8);margin-bottom:16px}
+.profile-member-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border-radius:99px;padding:5px 14px;font-size:0.75rem;font-weight:700;color:white;border:1px solid rgba(255,255,255,0.3)}
+
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);padding:20px 16px;gap:0;text-align:center}
+.profile-stat{padding:12px 8px}
+.profile-stat+.profile-stat{border-left:1px solid var(--border)}
+.profile-stat-val{font-family:'Lexend',sans-serif;font-weight:700;font-size:1.3rem;color:var(--text)}
+.profile-stat-label{font-size:0.7rem;color:var(--text-muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.06em}
+
+.profile-menu{border-top:1px solid var(--border)}
+.profile-menu-item{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;transition:background 0.15s;border:none;background:none;width:100%;text-align:left}
+.profile-menu-item:hover{background:var(--bg)}
+.profile-menu-item+.profile-menu-item{border-top:1px solid var(--border)}
+.menu-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-label{flex:1;font-weight:600;font-size:0.88rem;color:var(--text)}
+.menu-sub{font-size:0.74rem;color:var(--text-muted);margin-top:2px}
+.menu-arrow{color:var(--text-muted)}
+.menu-arrow .material-symbols-outlined{font-size:18px}
+
+/* FORMS */
+.form-section{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;overflow:hidden}
+.form-section-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.form-section-title{font-weight:700;font-size:0.95rem;color:var(--text)}
+.form-section-body{padding:24px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+.form-input{height:46px;padding:0 14px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:var(--text);outline:none;transition:border 0.2s}
+.form-input:focus{border-color:var(--primary);background:white;box-shadow:0 0 0 4px var(--primary-light)}
+.form-input::placeholder{color:var(--text-muted)}
+.form-input:disabled{opacity:0.6;cursor:not-allowed}
+.form-row-full{grid-column:1/-1}
+.form-select{height:46px;padding:0 14px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;color:var(--text);cursor:pointer;outline:none;transition:border 0.2s}
+.form-select:focus{border-color:var(--primary)}
+
+.btn-save{padding:12px 24px;background:var(--primary);color:white;border:none;border-radius:var(--radius-sm);font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all 0.2s;letter-spacing:0.04em}
+.btn-save:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-cancel{padding:12px 24px;background:none;color:var(--text-muted);border:2px solid var(--border);border-radius:var(--radius-sm);font-weight:600;font-size:0.88rem;cursor:pointer;transition:all 0.2s}
+.btn-cancel:hover{border-color:var(--text-muted);color:var(--text)}
+
+/* CHILDREN CARDS */
+.child-card{background:var(--bg);border-radius:var(--radius-sm);padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.child-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.child-info{flex:1}
+.child-name{font-weight:700;font-size:0.92rem}
+.child-class{font-size:0.78rem;color:var(--text-muted);margin-top:2px}
+.child-box-badge{font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--primary-light);color:var(--primary)}
+.btn-add-child{display:flex;align-items:center;gap:8px;padding:12px 20px;border:2px dashed var(--border);border-radius:var(--radius-sm);background:none;cursor:pointer;font-weight:600;font-size:0.85rem;color:var(--text-muted);transition:all 0.18s;width:100%;justify-content:center}
+.btn-add-child:hover{border-color:var(--primary);color:var(--primary)}
+
+/* REFERRAL */
+.referral-box{background:linear-gradient(135deg,#f59e0b,var(--primary));border-radius:var(--radius);padding:24px;color:white}
+.referral-code{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:var(--radius-sm);padding:12px 20px;font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:0.1em;text-align:center;margin:16px 0;cursor:pointer;transition:all 0.2s}
+.referral-code:hover{background:rgba(255,255,255,0.3)}
+
+/* NOTIF TOGGLE */
+.notif-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
+.notif-row:last-child{border-bottom:none}
+.toggle{width:48px;height:26px;border-radius:99px;background:#e5e7eb;border:none;cursor:pointer;position:relative;transition:background 0.25s;flex-shrink:0}
+.toggle.on{background:var(--primary)}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:3px;left:3px;transition:left 0.25s;box-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.toggle.on::after{left:25px}
+
+#toast{position:fixed;bottom:28px;right:28px;background:#111827;color:white;padding:13px 20px;border-radius:12px;font-size:0.85rem;font-weight:500;opacity:0;transform:translateY(10px);transition:all 0.3s;z-index:999;pointer-events:none;display:flex;align-items:center;gap:8px}
+#toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:1100px){.page-body{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0}.topbar{padding:14px 20px}.page-body{padding:16px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-logo"><div class="logo-mark"><div class="logo-icon">🎒</div><div class="logo-text">SCHOOL<span>BOX</span></div></div></div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Menu principal</div>
+    <a class="nav-item" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span>Tableau de bord</a>
+    <a class="nav-item" href="ma-box.html"><span class="material-symbols-outlined">inventory_2</span>Ma Box<span class="nav-badge">NEW</span></a>
+    <a class="nav-item" href="produits.html"><span class="material-symbols-outlined">category</span>Produits</a>
+    <a class="nav-item" href="commandes.html"><span class="material-symbols-outlined">receipt_long</span>Mes commandes<span class="nav-badge">2</span></a>
+    <div class="nav-section-label" style="margin-top:12px">Mon compte</div>
+    <a class="nav-item active" href="profil.html"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">person</span>Profil</a>
+    <a class="nav-item" href="#"><span class="material-symbols-outlined">notifications</span>Notifications<span class="nav-badge">3</span></a>
+    <div style="height:16px"></div>
+    <a class="nav-item" href="index.html" style="color:#ef4444"><span class="material-symbols-outlined">logout</span>Déconnexion</a>
+  </nav>
+  <div class="sidebar-user"><div class="user-card"><div class="user-avatar-lg">JD</div><div><div style="font-weight:600;font-size:0.88rem">Jean Dupont</div><div style="font-size:0.72rem;color:var(--text-muted)">Parent d'élève</div></div></div></div>
+</aside>
+
+<div class="main-content">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div>
+        <div style="font-family:'Lexend',sans-serif;font-weight:700;font-size:1.2rem">Mon profil 👤</div>
+        <div style="font-size:0.8rem;color:var(--text-muted)">Gérez vos informations personnelles</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-body">
+    <!-- LEFT: PROFILE CARD -->
+    <div>
+      <div class="profile-card">
+        <div class="profile-hero">
+          <div class="avatar-wrap">
+            <div class="avatar-circle">JD</div>
+            <div class="avatar-edit-btn" onclick="showToast('Photo mise à jour')">
+              <span class="material-symbols-outlined">edit</span>
+            </div>
+          </div>
+          <div class="profile-name">Jean Dupont</div>
+          <div class="profile-role">Parent d'élève · Cotonou, Bénin</div>
+          <div class="profile-member-badge">
+            <span class="material-symbols-outlined" style="font-size:13px">verified</span>
+            Membre depuis jan. 2025
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat-val">3</div>
+            <div class="profile-stat-label">Commandes</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-val">2</div>
+            <div class="profile-stat-label">Enfants</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-val">4.9⭐</div>
+            <div class="profile-stat-label">Satisfaction</div>
+          </div>
+        </div>
+
+        <div class="profile-menu">
+          <button class="profile-menu-item" onclick="showToast('Historique des paiements')">
+            <div class="menu-icon" style="background:var(--primary-light)"><span class="material-symbols-outlined" style="color:var(--primary)">credit_card</span></div>
+            <div><div class="menu-label">Méthodes de paiement</div><div class="menu-sub">Orange Money, MTN MoMo</div></div>
+            <div class="menu-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+          </button>
+          <button class="profile-menu-item" onclick="showToast('Adresses sauvegardées')">
+            <div class="menu-icon" style="background:rgba(59,130,246,0.1)"><span class="material-symbols-outlined" style="color:#2563eb">location_on</span></div>
+            <div><div class="menu-label">Mes adresses</div><div class="menu-sub">2 adresses enregistrées</div></div>
+            <div class="menu-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+          </button>
+          <button class="profile-menu-item" onclick="showToast('Aide & support SCHOOL BOX')">
+            <div class="menu-icon" style="background:rgba(16,185,129,0.1)"><span class="material-symbols-outlined" style="color:#059669">help</span></div>
+            <div><div class="menu-label">Aide & Support</div><div class="menu-sub">FAQ, contact, retours</div></div>
+            <div class="menu-arrow"><span class="material-symbols-outlined">chevron_right</span></div>
+          </button>
+          <button class="profile-menu-item" onclick="window.location.href='index.html'" style="color:#ef4444">
+            <div class="menu-icon" style="background:rgba(239,68,68,0.1)"><span class="material-symbols-outlined" style="color:#ef4444">logout</span></div>
+            <div><div class="menu-label" style="color:#ef4444">Se déconnecter</div></div>
+            <div class="menu-arrow"><span class="material-symbols-outlined" style="color:#ef4444">chevron_right</span></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- REFERRAL -->
+      <div class="referral-box" style="margin-top:20px">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;margin-bottom:6px">🎁 Parrainez vos amis !</div>
+        <div style="font-size:0.82rem;opacity:0.9;line-height:1.5">Invitez un parent et gagnez <strong>2 500 FCFA</strong> chacun sur votre prochaine commande.</div>
+        <div class="referral-code" onclick="copyCode()">SB-JEAN2026</div>
+        <div style="font-size:0.75rem;opacity:0.8;text-align:center">👆 Cliquez pour copier votre code</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORMS -->
+    <div>
+      <!-- PERSONAL INFO -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <div class="form-section-title">Informations personnelles</div>
+          <button class="btn-save" onclick="showToast('Profil mis à jour ✓')">Enregistrer</button>
+        </div>
+        <div class="form-section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Prénom</label>
+              <input class="form-input" type="text" value="Jean"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom de famille</label>
+              <input class="form-input" type="text" value="Dupont"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" value="jean.dupont@email.com"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Téléphone</label>
+              <input class="form-input" type="tel" value="+229 91 23 45 67"/>
+            </div>
+            <div class="form-group form-row-full">
+              <label class="form-label">Adresse principale</label>
+              <input class="form-input" type="text" value="Quartier Haie Vive, Cotonou"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ville</label>
+              <input class="form-input" type="text" value="Cotonou"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pays</label>
+              <select class="form-select">
+                <option selected>🇧🇯 Bénin</option>
+                <option>🇨🇮 Côte d'Ivoire</option>
+                <option>🇸🇳 Sénégal</option>
+                <option>🇨🇲 Cameroun</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHILDREN -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <div class="form-section-title">👨‍👧‍👦 Mes enfants</div>
+          <div style="font-size:0.78rem;color:var(--text-muted)">2 enfants enregistrés</div>
+        </div>
+        <div class="form-section-body">
+          <div class="child-card">
+            <div class="child-avatar" style="background:rgba(244,140,37,0.15)">👧</div>
+            <div class="child-info">
+              <div class="child-name">Amina Dupont</div>
+              <div class="child-class">Collège Saint Joseph · Classe de 5ème</div>
+            </div>
+            <span class="child-box-badge">SAFE BOX</span>
+          </div>
+          <div class="child-card">
+            <div class="child-avatar" style="background:rgba(26,35,126,0.1)">👦</div>
+            <div class="child-info">
+              <div class="child-name">Kofi Dupont</div>
+              <div class="child-class">École Primaire Les Cocotiers · CM2</div>
+            </div>
+            <span class="child-box-badge" style="background:var(--navy-light);color:var(--navy)">STANDARD</span>
+          </div>
+          <button class="btn-add-child" onclick="showToast('Fonctionnalité bientôt disponible')">
+            <span class="material-symbols-outlined">add</span>
+            Ajouter un enfant
+          </button>
+        </div>
+      </div>
+
+      <!-- SECURITY -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <div class="form-section-title">🔐 Sécurité</div>
+        </div>
+        <div class="form-section-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Mot de passe actuel</label>
+              <input class="form-input" type="password" placeholder="••••••••"/>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+              <label class="form-label">Nouveau mot de passe</label>
+              <input class="form-input" type="password" placeholder="Min. 8 caractères"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirmer le mot de passe</label>
+              <input class="form-input" type="password" placeholder="Répétez le mot de passe"/>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:20px">
+            <button class="btn-cancel">Annuler</button>
+            <button class="btn-save" onclick="showToast('Mot de passe mis à jour ✓')">Mettre à jour</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <div class="form-section-title">🔔 Notifications</div>
+        </div>
+        <div class="form-section-body">
+          <div class="notif-row">
+            <div>
+              <div style="font-weight:600;font-size:0.88rem">Confirmation de commande</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Recevoir un email à chaque commande</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="notif-row">
+            <div>
+              <div style="font-weight:600;font-size:0.88rem">Suivi de livraison</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Mises à jour SMS en temps réel</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="notif-row">
+            <div>
+              <div style="font-weight:600;font-size:0.88rem">Promotions & offres</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Réductions spéciales rentrée</div>
+            </div>
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="notif-row">
+            <div>
+              <div style="font-weight:600;font-size:0.88rem">Rappels de rentrée</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px">Alerte 30 jours avant la rentrée</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="toast"><span class="material-symbols-outlined" style="font-size:18px">check_circle</span><span id="toast-msg"></span></div>
+
+<script>
+function copyCode(){
+  showToast('Code SB-JEAN2026 copié dans le presse-papiers ✓');
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>

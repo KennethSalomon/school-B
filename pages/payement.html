@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement | SchoolBox</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <h1>Résumé de la commande</h1>
+
+  <div class="order-summary">
+    <div class="order-item">
+      <img src="/assets/images/box-image.png" alt="Box Safe">
+      <div>
+        <h3>Box Safe</h3>
+        <p>Fournitures scolaires essentielles</p>
+        <p>Quantité: 1</p>
+        <p>25 000 FCFA</p>
+      </div>
+    </div>
+
+    <h2>Adresse de livraison</h2>
+    <p>Jean Dupont</p>
+    <p>Abidjan, Cocody</p>
+    <p>+225 00 00 00 00</p>
+  </div>
+
+  <h2>Mode de paiement</h2>
+  <div class="payment-options">
+    <label>
+      <input type="radio" name="payment" value="orange-money">
+      <div class="payment-option">
+        <img src="/assets/icons/orange-money-icon.svg" alt="Orange Money">
+        <span>Orange Money</span>
+      </div>
+    </label>
+    <label>
+      <input type="radio" name="payment" value="momo">
+      <div class="payment-option">
+        <img src="/assets/icons/momo-icon.svg" alt="MTN MoMo">
+        <span>MTN MoMo</span>
+      </div>
+    </label>
+    <label>
+      <input type="radio" name="payment" value="wave">
+      <div class="payment-option">
+        <img src="/assets/icons/wave-icon.svg" alt="Wave">
+        <span>Wave</span>
+      </div>
+    </label>
+    <label>
+      <input type="radio" name="payment" value="credit-card">
+      <div class="payment-option">
+        <img src="/assets/icons/credit-card-icon.svg" alt="Carte Bancaire">
+        <span>Carte Bancaire</span>
+      </div>
+    </label>
+  </div>
+
+  <div class="total">
+    <p>Total à payer: 27 500 FCFA</p>
+  </div>
+
+  <a href="/pages/confirmation.html" class="btn-primary">Payer maintenant</a>
+</body>
+</html>

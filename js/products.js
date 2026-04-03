@@ -1,24 +1,33 @@
-import { Auth, Products, Orders } from '/supabase.js';
+import { authService } from '/js/services/auth.service.js';
+import { productService } from '/js/services/product.service.js';
+import { cartService } from '/js/services/cart.service.js';
+import { NotificationService } from '/js/services/api.service.js';
 
 let allProducts = [];
-let cart = [];
+let currentCart = [];
 let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Vérifier l'authentification
-  const user = await Auth.getUser();
-  if (!user) {
-    window.location.href = '/login.html';
+  const isAuth = authService.isAuthenticated();
+  if (!isAuth) {
+    window.location.href = '/pages/auth.html';
     return;
   }
 
   // Gestionnaire de déconnexion
-  document.getElementById('logout-btn').addEventListener('click', async () => {
-    await Auth.signOut();
-  });
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      await authService.signOut();
+    });
+  }
 
   // Charger les produits
   await loadProducts();
+
+  // Charger le panier
+  await loadCart();
 
   // Configuration des contrôles
   setupSearch();
@@ -28,12 +37,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadProducts() {
   try {
-    const products = await Products.getAll();
-    allProducts = products;
-    displayProducts(products);
+    allProducts = await productService.getAllProducts();
+    displayProducts(allProducts);
   } catch (error) {
     console.error('Erreur chargement produits:', error);
-    document.getElementById('products-grid').innerHTML = '<div class="no-products">Erreur lors du chargement des produits</div>';
+    const grid = document.getElementById('products-grid');
+    if (grid) {
+      grid.innerHTML = '<div class="no-products">Erreur lors du chargement des produits</div>';
+    }
+    NotificationService.error('Erreur lors du chargement des produits');
+  }
+}
+
+async function loadCart() {
+  try {
+    currentCart = await cartService.getCart();
+    updateCartSummary();
+  } catch (error) {
+    console.error('Erreur chargement panier:', error);
+    currentCart = [];
   }
 }
 
@@ -136,61 +158,78 @@ function filterProducts() {
 
 function addToCart(productId, button) {
   const product = allProducts.find(p => p.id == productId);
-  if (!product) return;
-
-  const existingItem = cart.find(item => item.id === productId);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.product_variants[0]?.price || 0,
-      quantity: 1
-    });
+  if (!product) {
+    NotificationService.error('Produit non trouvé');
+    return;
   }
 
-  // Animation du bouton
-  button.textContent = 'Ajouté ✓';
-  button.classList.add('added');
-  setTimeout(() => {
-    button.textContent = 'Ajouter au panier';
-    button.classList.remove('added');
-  }, 1000);
+  try {
+    // Ajouter au panier via cartService
+    cartService.addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.product_variants?.[0]?.price || 0,
+      quantity: 1
+    });
 
-  updateCartSummary();
+    // Animation du bouton
+    button.textContent = 'Ajouté ✓';
+    button.classList.add('added');
+    setTimeout(() => {
+      button.textContent = 'Ajouter au panier';
+      button.classList.remove('added');
+    }, 1000);
+
+    updateCartSummary();
+    NotificationService.success('Produit ajouté au panier');
+  } catch (error) {
+    console.error('Erreur ajout panier:', error);
+    NotificationService.error('Erreur lors de l\'ajout au panier');
+  }
 }
 
 function setupCart() {
-  document.getElementById('view-cart-btn').addEventListener('click', () => {
-    showCartModal();
-  });
+  const viewCartBtn = document.getElementById('view-cart-btn');
+  if (viewCartBtn) {
+    viewCartBtn.addEventListener('click', () => {
+      showCartModal();
+    });
+  }
 
   // Modal
-  document.querySelector('.close-modal').addEventListener('click', () => {
-    document.getElementById('cart-modal').style.display = 'none';
-  });
+  const closeModalBtn = document.querySelector('.close-modal');
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+      const modal = document.getElementById('cart-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
 
-  document.getElementById('checkout-btn').addEventListener('click', async () => {
-    try {
-      const user = await Auth.getUser();
-      const orderData = {
-        user_id: user.id,
-        items: cart,
-        total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-        status: 'pending'
-      };
+  const checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', async () => {
+      try {
+        const user = authService.getCurrentUser();
+        if (!user) {
+          NotificationService.error('Utilisateur non connecté');
+          return;
+        }
 
-      await Orders.create(orderData);
-      alert('Commande créée avec succès !');
-      document.getElementById('cart-modal').style.display = 'none';
-      cart = [];
-      updateCartSummary();
-    } catch (error) {
-      console.error('Erreur commande:', error);
-      alert('Erreur lors de la création de la commande');
-    }
-  });
+        if (currentCart.length === 0) {
+          NotificationService.warning('Votre panier est vide');
+          return;
+        }
+
+        // Rediriger vers la page de livraison
+        window.location.href = '/pages/delivery.html';
+      } catch (error) {
+        console.error('Erreur commande:', error);
+        NotificationService.error('Erreur lors du processus de commande');
+      }
+    });
+  }
 }
 
 function updateCartSummary() {
@@ -198,31 +237,40 @@ function updateCartSummary() {
   const count = document.getElementById('cart-count');
   const total = document.getElementById('cart-total');
 
-  if (cart.length === 0) {
+  if (!summary || !count || !total) return;
+
+  if (currentCart.length === 0) {
     summary.style.display = 'none';
     return;
   }
 
   summary.style.display = 'flex';
-  count.textContent = `${cart.length} article(s)`;
-  total.textContent = cart.reduce((sum, item) => sum + item.price * item.quantity, 0) + ' FCFA';
+  count.textContent = `${currentCart.length} article(s)`;
+  const totalPrice = currentCart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+  total.textContent = totalPrice.toLocaleString('fr-FR') + ' FCFA';
 }
 
 function showCartModal() {
   const cartItems = document.getElementById('cart-items');
-  const total = document.getElementById('modal-cart-total');
+  const modalTotal = document.getElementById('modal-cart-total');
 
-  cartItems.innerHTML = cart.map(item => `
+  if (!cartItems || !modalTotal) return;
+
+  cartItems.innerHTML = currentCart.map(item => `
     <div class="cart-item">
       <div>
         <strong>${item.name}</strong><br>
         <small>Quantité: ${item.quantity}</small>
       </div>
-      <span>${item.price * item.quantity} FCFA</span>
+      <span>${((item.price || 0) * (item.quantity || 1)).toLocaleString('fr-FR')} FCFA</span>
     </div>
   `).join('');
 
-  total.textContent = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = currentCart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+  modalTotal.textContent = total.toLocaleString('fr-FR');
 
-  document.getElementById('cart-modal').style.display = 'block';
+  const modal = document.getElementById('cart-modal');
+  if (modal) {
+    modal.style.display = 'block';
+  }
 }

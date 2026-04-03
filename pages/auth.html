@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentification | SchoolBox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/auth.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #f48c25;
+      --primary-dark: #d97a18;
+      --primary-light: #fef3ea;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --error: #dc2626;
+      --success: #059669;
+      --bg: #ffffff;
+      --surface: #f9fafb;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, #ff9d4d 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-container {
+      background: var(--bg);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      max-width: 450px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .auth-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #ff9d4d 100%);
+      padding: 40px 30px;
+      text-align: center;
+      color: white;
+    }
+
+    .auth-logo {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .auth-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .auth-header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 30px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 16px 0;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .auth-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .auth-tab:hover {
+      color: var(--text);
+    }
+
+    .auth-content {
+      padding: 40px 30px;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(244, 140, 37, 0.1);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .password-group {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    .form-error {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-error.show {
+      display: block;
+    }
+
+    .form-success {
+      background: rgba(5, 150, 105, 0.1);
+      border: 1px solid var(--success);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .form-success.show {
+      display: block;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, #ff9d4d 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(244, 140, 37, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .submit-btn.loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .submit-btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .auth-footer {
+      text-align: center;
+      padding: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .auth-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .auth-footer a:hover {
+      color: var(--primary-dark);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .checkbox-group label {
+      margin: 0;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 24px 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      margin: 0 12px;
+    }
+
+    .social-login {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .social-btn {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+
+    .social-btn:hover {
+      background: var(--surface);
+      border-color: var(--primary);
+    }
+
+    .social-btn span {
+      margin-right: 6px;
+    }
+
+    .info-message {
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      color: var(--primary-dark);
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .auth-container {
+        border-radius: 16px;
+      }
+
+      .auth-header {
+        padding: 30px 20px;
+      }
+
+      .auth-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .auth-content {
+        padding: 30px 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .social-login {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="auth-logo">📚</div>
+      <h1>SchoolBox</h1>
+      <p>Vos fournitures scolaires en un clic</p>
+    </div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login">Connexion</div>
+      <div class="auth-tab" data-tab="signup">Inscription</div>
+    </div>
+
+    <div class="auth-content">
+      <!-- FORMULAIRE DE CONNEXION -->
+      <form id="login-form" class="auth-form active">
+        <div class="form-success" id="login-success"></div>
+        <div class="form-error" id="login-error"></div>
+
+        <div class="form-group">
+          <label for="login-email">Adresse email</label>
+          <input
+            type="email"
+            id="login-email"
+            name="email"
+            placeholder="votre.email@exemple.com"
+            required
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Mot de passe</label>
+          <div class="password-group">
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              placeholder="••••••••"
+              required
+            >
+            <span class="toggle-password" data-toggle="login-password">👁️</span>
+          </div>
+          <div class="form-error"></div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="remember-me" name="remember">
+          <label for="remember-me">Se souvenir de moi</label>
+        </div>
+
+        <button type="submit" class="submit-btn">Se connecter</button>
+
+        <div class="auth-footer" style="margin-top: 20px;">
+          <p><a href="#" onclick="showResetPassword()">Mot de passe oublié ?</a></p>
+        </div>
+      </form>
+
+      <!-- FORMULAIRE D'INSCRIPTION -->
+      <form id="signup-form" class="auth-form">
+        <div class="form-success" id="signup-success"></div>
+        <div class="form-error" id="signup-error"></div>
+
+        <div class="info-message">
+          📝 Complétez tous les champs pour créer votre compte SchoolBox
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="signup-firstname">Prénom</label>
+            <input
+              type="text"
+              id="signup-firstname"
+              name="firstName"
+              placeholder="Jean"
+              required
+            >
+            <div class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-lastname">Nom</label>
+            <input
+              type="text"
+              id="signup-lastname"
+              name="lastName"
+              placeholder="Dupont"
+              required
+            >
+            <div class="form-error"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email">Adresse email</label>
+          <input
+            type="email"
+            id="signup-email"
+            name="email"
+            placeholder="votre.email@exemple.com"
+            required
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-phone">Téléphone</label>
+          <input
+            type="tel"
+            id="signup-phone"
+            name="phone"
+            placeholder="+229 90 00 00 00"
+          >
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-password">Mot de passe</label>
+          <div class="password-group">
+            <input
+              type="password"
+              id="signup-password"
+              name="password"
+              placeholder="Min. 8 caractères"
+              required
+            >
+            <span class="toggle-password" data-toggle="signup-password">👁️</span>
+          </div>
+          <div class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-confirm-password">Confirmer mot de passe</label>
+          <div class="password-group">
+            <input
+              type="password"
+              id="signup-confirm-password"
+              name="confirmPassword"
+              placeholder="Confirmez votre mot de passe"
+              required
+            >
+            <span class="toggle-password" data-toggle="signup-confirm-password">👁️</span>
+          </div>
+          <div class="form-error"></div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms">J'accepte les <a href="#" style="color: var(--primary);">conditions d'utilisation</a></label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="newsletter" name="newsletter">
+          <label for="newsletter">S'abonner à la newsletter</label>
+        </div>
+
+        <button type="submit" class="submit-btn">S'inscrire</button>
+
+        <div class="auth-footer" style="margin-top: 20px;">
+          <p>Vous avez déjà un compte ? <a href="#" onclick="switchTab('login')">Connectez-vous</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { authService } from '/js/services/auth.service.js';
+    import { NotificationService, StorageService } from '/js/services/api.service.js';
+
+    // Gestion des onglets
+    const tabs = document.querySelectorAll('.auth-tab');
+    const forms = document.querySelectorAll('.auth-form');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        switchTab(this.dataset.tab);
+      });
+    });
+
+    function switchTab(tabName) {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === tabName);
+      });
+      forms.forEach(f => {
+        f.classList.toggle('active', f.id === `${tabName}-form`);
+      });
+    }
+
+    window.switchTab = switchTab;
+
+    // Toggle affichage mot de passe
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const input = document.getElementById(this.dataset.toggle);
+        const type = input.type === 'password' ? 'text' : 'password';
+        input.type = type;
+        this.textContent = type === 'password' ? '👁️' : '🙈';
+      });
+    });
+
+    // Formulaire de connexion
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = e.target.querySelector('.submit-btn');
+      
+      try {
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const rememberMe = document.getElementById('remember-me').checked;
+
+        const result = await authService.signIn({ email, password });
+
+        if (result.success) {
+          if (rememberMe) {
+            StorageService.set('remember_email', email);
+          }
+          NotificationService.success('Connexion réussie !');
+          setTimeout(() => {
+            window.location.href = '/dashboard.html';
+          }, 1000);
+        }
+      } catch (error) {
+        document.getElementById('login-error').textContent = error.message;
+        document.getElementById('login-error').classList.add('show');
+        NotificationService.error(error.message);
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Formulaire d'inscription
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = e.target.querySelector('.submit-btn');
+
+      try {
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        const firstName = document.getElementById('signup-firstname').value;
+        const lastName = document.getElementById('signup-lastname').value;
+        const email = document.getElementById('signup-email').value;
+        const phone = document.getElementById('signup-phone').value;
+        const password = document.getElementById('signup-password').value;
+        const confirmPassword = document.getElementById('signup-confirm-password').value;
+        const acceptTerms = document.getElementById('terms').checked;
+
+        if (!acceptTerms) {
+          throw new Error('Vous devez accepter les conditions d\'utilisation');
+        }
+
+        const result = await authService.signUp({
+          firstName,
+          lastName,
+          email,
+          phone,
+          password,
+          confirmPassword
+        });
+
+        if (result.success) {
+          document.getElementById('signup-success').textContent = result.message;
+          document.getElementById('signup-success').classList.add('show');
+          NotificationService.success(result.message);
+          
+          setTimeout(() => {
+            e.target.reset();
+            switchTab('login');
+            document.getElementById('login-email').value = email;
+          }, 2000);
+        }
+      } catch (error) {
+        document.getElementById('signup-error').textContent = error.message;
+        document.getElementById('signup-error').classList.add('show');
+        NotificationService.error(error.message);
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Afficher l'email mémorisé
+    const rememberedEmail = StorageService.get('remember_email');
+    if (rememberedEmail) {
+      document.getElementById('login-email').value = rememberedEmail;
+      document.getElementById('remember-me').checked = true;
+    }
+
+    // Vérifier si déjà connecté
+    const isAuthenticated = await authService.checkAuth();
+    if (isAuthenticated) {
+      window.location.href = '/dashboard.html';
+    }
+
+    window.showResetPassword = function() {
+      window.location.href = '/pages/reset-password.html';
+    };
+  </script>
+</body>
+</html>
